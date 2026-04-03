@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://radzor.io/schema/manifest/1.0.0",
+  "title": "Radzor Component Manifest",
+  "description": "Schema for radzor.manifest.json — a standardized component descriptor for LLM-driven development.",
+  "type": "object",
+  "required": ["radzor", "name", "version", "description", "languages", "category"],
+  "additionalProperties": false,
+  "properties": {
+    "radzor": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Version of the Radzor Component Spec this manifest conforms to."
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^@[a-z0-9-]+/[a-z0-9-]+$",
+      "description": "Unique scoped package name, e.g. @radzor/audio-capture."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9.]+)?$",
+      "description": "Semantic version of this component."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 500,
+      "description": "Human and LLM readable description of what this component does."
+    },
+    "languages": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Programming languages this component provides implementations for."
+    },
+    "category": {
+      "type": "string",
+      "enum": ["audio", "auth", "payment", "chat", "data", "ui", "ai", "storage", "email", "analytics", "media", "networking", "security", "other"],
+      "description": "Primary category for registry classification."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string", "maxLength": 30 },
+      "maxItems": 10,
+      "description": "Searchable tags for discovery."
+    },
+    "inputs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/parameter" },
+      "description": "Typed configuration parameters the component accepts."
+    },
+    "outputs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/parameter" },
+      "description": "Typed values the component produces."
+    },
+    "events": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/event" },
+      "description": "Events the component can emit."
+    },
+    "actions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/action" },
+      "description": "Callable methods exposed by the component."
+    },
+    "dependencies": {
+      "$ref": "#/$defs/dependencies",
+      "description": "External package and Radzor component dependencies."
+    },
+    "composability": {
+      "$ref": "#/$defs/composability",
+      "description": "Rules for connecting this component's I/O with other components."
+    },
+    "llm": {
+      "$ref": "#/$defs/llmMeta",
+      "description": "LLM-specific integration metadata."
+    }
+  },
+  "$defs": {
+    "parameter": {
+      "type": "object",
+      "required": ["name", "type", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9]*$"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type annotation (TypeScript-style), e.g. string, number, ReadableStream<AudioBuffer>."
+        },
+        "description": {
+          "type": "string"
+        },
+        "default": {
+          "description": "Default value if not provided."
+        },
+        "required": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "required": ["name", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^on[A-Z][a-zA-Z]*$"
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "Key-value map of payload field names to their types."
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "action": {
+      "type": "object",
+      "required": ["name", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-zA-Z0-9]*$"
+        },
+        "params": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/parameter" },
+          "description": "Ordered list of parameters the action accepts."
+        },
+        "returns": {
+          "type": "string",
+          "description": "Return type annotation."
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "packages": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "External npm/pip packages with version ranges."
+        },
+        "radzor": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^@[a-z0-9-]+/[a-z0-9-]+$" },
+          "description": "Other Radzor components this component depends on."
+        }
+      }
+    },
+    "composability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "connectsTo": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["output", "compatibleWith"],
+            "additionalProperties": false,
+            "properties": {
+              "output": {
+                "type": "string",
+                "description": "Name of the output from this component."
+              },
+              "compatibleWith": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Dot-notation references to compatible inputs on other components, e.g. @radzor/speech-to-text.input.audioStream."
+              }
+            }
+          }
+        }
+      }
+    },
+    "llmMeta": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "integrationPrompt": {
+          "type": "string",
+          "description": "Relative path to a markdown file with integration instructions for LLMs."
+        },
+        "usageExamples": {
+          "type": "string",
+          "description": "Relative path to a markdown file with usage examples."
+        },
+        "constraints": {
+          "type": "string",
+          "description": "Plain-text constraints the LLM must be aware of (e.g. browser-only, requires API key)."
+        }
+      }
+    }
+  }
+}
