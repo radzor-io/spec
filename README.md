@@ -30,13 +30,13 @@ Add a `radzor.manifest.json` to the root of your component:
 ```json
 {
   "radzor": "1.0.0",
-  "name": "my-component",
+  "name": "@my-scope/my-component",
   "version": "1.0.0",
   "description": "What this component does",
   "languages": ["typescript"],
   "category": "ui",
-  "inputs": { ... },
-  "outputs": { ... }
+  "inputs": [],
+  "outputs": []
 }
 ```
 
