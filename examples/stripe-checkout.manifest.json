@@ -3,7 +3,7 @@
   "name": "@radzor/stripe-checkout",
   "version": "0.1.0",
   "description": "Simplified Stripe Checkout integration. Creates checkout sessions, handles payment webhooks, and manages subscription lifecycle.",
-  "languages": ["typescript", "python"],
+  "languages": ["typescript"],
   "category": "payment",
   "tags": ["stripe", "payment", "checkout", "subscription", "billing"],
   "inputs": [
@@ -38,6 +38,18 @@
       "default": "payment",
       "required": false,
       "description": "Checkout mode: one-time payment or recurring subscription."
+    },
+    {
+      "name": "secretKey",
+      "type": "string",
+      "description": "Stripe secret API key (sk_live_... or sk_test_...). Server-side only.",
+      "required": true
+    },
+    {
+      "name": "webhookSecret",
+      "type": "string",
+      "description": "Stripe webhook signing secret (whsec_...) for verifying webhook events.",
+      "required": true
     }
   ],
   "outputs": [
@@ -133,19 +145,9 @@
   "dependencies": {
     "packages": {
       "stripe": "^14.0.0"
-    },
-    "radzor": ["@radzor/auth-oauth"]
+    }
   },
-  "composability": {
-    "connectsTo": [
-      {
-        "output": "paymentStatus",
-        "compatibleWith": [
-          "@radzor/access-control.input.paymentStatus"
-        ]
-      }
-    ]
-  },
+  "composability": {},
   "llm": {
     "integrationPrompt": "llm/integration.md",
     "usageExamples": "llm/examples.md",

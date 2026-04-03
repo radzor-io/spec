@@ -3,7 +3,7 @@
   "name": "@radzor/auth-oauth",
   "version": "0.1.0",
   "description": "OAuth 2.0 authentication flow supporting multiple providers (Google, GitHub, Discord). Handles token exchange, session management, and user profile retrieval.",
-  "languages": ["typescript", "python"],
+  "languages": ["typescript"],
   "category": "auth",
   "tags": ["oauth", "authentication", "login", "session", "jwt"],
   "inputs": [
@@ -32,6 +32,18 @@
       "default": 86400,
       "required": false,
       "description": "Session duration in seconds (default: 24 hours)."
+    },
+    {
+      "name": "clientCredentials",
+      "type": "Record<string, { clientId: string; clientSecret: string }>",
+      "description": "OAuth client credentials for each enabled provider. Keys must match the provider names.",
+      "required": true
+    },
+    {
+      "name": "jwtSecret",
+      "type": "string",
+      "description": "Secret key used to sign and verify JWT session tokens.",
+      "required": true
     }
   ],
   "outputs": [
