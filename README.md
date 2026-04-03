@@ -20,8 +20,12 @@ See the [`examples/`](./examples) directory for real-world manifests:
 |-----------|-------------|
 | [Audio Capture](./examples/audio-capture.manifest.json) | Browser audio recording with MediaRecorder API |
 | [OAuth](./examples/auth-oauth.manifest.json) | Multi-provider authentication flow |
-| [Stripe Checkout](./examples/stripe-checkout.manifest.json) | Payment processing with Stripe |
+| [Email Send](./examples/email-send.manifest.json) | Email sending via Resend, SendGrid, or SMTP |
+| [File Upload](./examples/file-upload.manifest.json) | File upload to S3, R2, or local storage |
+| [LLM Completion](./examples/llm-completion.manifest.json) | Chat completions (OpenAI, Anthropic, Ollama) |
+| [Rate Limiter](./examples/rate-limiter.manifest.json) | In-memory rate limiting |
 | [Realtime Chat](./examples/realtime-chat.manifest.json) | WebSocket-based messaging |
+| [Stripe Checkout](./examples/stripe-checkout.manifest.json) | Payment processing with Stripe |
 
 ## Quick Start
 
@@ -40,10 +44,10 @@ Add a `radzor.manifest.json` to the root of your component:
 }
 ```
 
-Validate against the schema:
+Validate with the Radzor CLI:
 
 ```bash
-npx ajv validate -s radzor-manifest.schema.json -d your-component/radzor.manifest.json
+npx radzor validate .
 ```
 
 ## Links
