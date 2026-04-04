@@ -36,7 +36,7 @@
     },
     "category": {
       "type": "string",
-      "enum": ["audio", "auth", "payment", "chat", "data", "ui", "ai", "storage", "email", "analytics", "media", "networking", "security", "other"],
+      "enum": ["audio", "auth", "payment", "chat", "data", "ui", "ai", "storage", "email", "analytics", "media", "networking", "messaging", "automation", "security", "web3", "other"],
       "description": "Primary category for registry classification."
     },
     "tags": {
