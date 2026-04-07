@@ -39,6 +39,12 @@
       "enum": ["audio", "auth", "payment", "chat", "data", "ui", "ai", "storage", "email", "analytics", "media", "networking", "messaging", "automation", "security", "web3", "other"],
       "description": "Primary category for registry classification."
     },
+    "runtime": {
+      "type": "string",
+      "enum": ["server", "browser", "universal"],
+      "default": "server",
+      "description": "Execution environment: server (Node.js only), browser (Web APIs only), or universal (both)."
+    },
     "tags": {
       "type": "array",
       "items": { "type": "string", "maxLength": 30 },
