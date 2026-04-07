@@ -107,6 +107,26 @@
         "required": {
           "type": "boolean",
           "default": true
+        },
+        "envVar": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9_]*$",
+          "description": "Standard environment variable name for this input, e.g. OPENAI_API_KEY."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "type"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string" },
+              "type": { "type": "string" },
+              "description": { "type": "string" },
+              "required": { "type": "boolean", "default": true }
+            }
+          },
+          "description": "Inline field descriptors for object/complex output types, so LLMs know the shape without reading source."
         }
       }
     },
@@ -187,6 +207,10 @@
                 "type": "array",
                 "items": { "type": "string" },
                 "description": "Dot-notation references to compatible inputs on other components, e.g. @radzor/speech-to-text.action.transcribe.audio."
+              },
+              "mapField": {
+                "type": "string",
+                "description": "Field name to extract from a complex output object before passing to the target input, e.g. 'text' to extract result.text from TranscriptionResult."
               },
               "runtime": {
                 "type": "string",
