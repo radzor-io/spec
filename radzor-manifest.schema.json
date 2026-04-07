@@ -180,7 +180,16 @@
               "compatibleWith": {
                 "type": "array",
                 "items": { "type": "string" },
-                "description": "Dot-notation references to compatible inputs on other components, e.g. @radzor/speech-to-text.input.audioStream."
+                "description": "Dot-notation references to compatible inputs on other components, e.g. @radzor/speech-to-text.action.transcribe.audio."
+              },
+              "runtime": {
+                "type": "string",
+                "enum": ["same-process", "cross-environment"],
+                "description": "Whether the connection happens in-process or requires a network bridge (e.g. browser → server)."
+              },
+              "note": {
+                "type": "string",
+                "description": "Free-text note for LLMs about how to wire this connection (e.g. bridge pattern required)."
               }
             }
           }
