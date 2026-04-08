@@ -1,16 +1,16 @@
-# Radzor Component Spec (RCS) 📜
+# Radzor Component Spec (RCS)
 
-The **universal manifest standard for LLM-driven component integration.**
+The manifest standard for LLM-driven component integration.
 
 RCS defines a structured JSON schema (`radzor.manifest.json`) that describes what a software component does, what data it requires, the events it emits, and the precise shape of its inputs and outputs. 
 
-By standardizing this information, **AI coding agents (like Claude, Cursor, GitHub Copilot) can integrate complex logic with zero hallucinations.**
+By standardizing this information, AI coding agents can integrate complex logic more accurately.
 
 ## Why RCS?
 
-- **Anti-Hallucination:** LLMs often hallucinate SDK methods or use outdated API documentation when you ask them to "implement Stripe" or "use Whisper API". RCS provides the definitive, up-to-date interface.
+- **Reduced Hallucinations:** LLMs often hallucinate SDK methods or use outdated API documentation. RCS provides the definitive, up-to-date interface.
 - **Dependency Awareness:** Declares required environment variables (API keys) and npm/pip packages so the CLI can auto-install them.
-- **Composability:** RCS manifests define strict `inputs` and `outputs` types, ensuring that an LLM can safely chain the output of `Component A` into the input of `Component B` (e.g., passing a microphone `Blob` from `audio-capture` into `speech-to-text`).
+- **Composability:** RCS manifests define strict `inputs` and `outputs` types, ensuring that an LLM can safely chain the output of `Component A` into the input of `Component B`.
 
 ## The Schema
 
