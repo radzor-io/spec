@@ -196,12 +196,21 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["output", "compatibleWith"],
+            "required": ["compatibleWith"],
             "additionalProperties": false,
+            "oneOf": [
+              { "required": ["output"] },
+              { "required": ["event"] }
+            ],
             "properties": {
               "output": {
                 "type": "string",
-                "description": "Name of the output from this component."
+                "description": "Name of the output from this component (used for output→action connections)."
+              },
+              "event": {
+                "type": "string",
+                "pattern": "^on[A-Z][a-zA-Z]*$",
+                "description": "Name of the event from this component (used for event→action connections)."
               },
               "compatibleWith": {
                 "type": "array",
@@ -210,7 +219,11 @@
               },
               "mapField": {
                 "type": "string",
-                "description": "Field name to extract from a complex output object before passing to the target input, e.g. 'text' to extract result.text from TranscriptionResult."
+                "description": "Field name to extract from a complex output/event payload before passing to the target input."
+              },
+              "description": {
+                "type": "string",
+                "description": "Human/LLM-readable description of why and when this connection fires."
               },
               "runtime": {
                 "type": "string",
@@ -219,7 +232,7 @@
               },
               "note": {
                 "type": "string",
-                "description": "Free-text note for LLMs about how to wire this connection (e.g. bridge pattern required)."
+                "description": "Free-text note for LLMs about how to wire this connection."
               }
             }
           }
